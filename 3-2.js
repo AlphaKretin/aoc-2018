@@ -19,12 +19,14 @@ function parseClaim(input) {
 }
 
 console.log("Reading input");
+console.time("whole");
 fs.readFile("input3.txt", "utf8", (err, file) => {
     const input = file.split("\n");
     const claims = [];
     let wid = 0;
     let hei = 0;
     console.log("Parsing input");
+    console.time("input")
     for (const put of input) {
         const claim = parseClaim(put);
         claims.push(claim);
@@ -35,6 +37,7 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
             hei = claim.ciel;
         }
     }
+    console.timeEnd("input");
     const col = [];
     for (let i = 0; i < hei; i++) {
         col.push(0);
@@ -44,6 +47,7 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
         field.push(JSON.parse(JSON.stringify(col)));
     }
     console.log("Processing claims");
+    console.time("claims");
     for (const claim of claims) {
         for (let i = 0; i < claim.width; i++) {
             for (let j = 0; j < claim.height; j++) {
@@ -51,7 +55,9 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
             }
         }
     }
+    console.timeEnd("claims");
     console.log("Finding answer");
+    console.time("ans")
     for (const claim of claims) {
         let overlaps = 0;
         for (let i = 0; i < claim.width; i++) {
@@ -65,4 +71,6 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
             console.log(claim.id);
         }
     }
+    console.timeEnd("ans");
+    console.timeEnd("whole");
 });
