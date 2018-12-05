@@ -1,20 +1,16 @@
 const fs = require("fs");
 
 function reactPolymer(input) {
-    let check = true;
-    while (check) {
-        check = false;
-        for (let i = 0; i < input.length - 1; i++) {
-            const a = input.charAt(i);
-            const b = input.charAt(i + 1);
-            if ((a === b.toLowerCase() || a === b.toUpperCase()) && a !== b) {
-                input = input.slice(0, i) + input.slice(i + 2);
-                check = true;
-                break;
-            }
+    const stack = [];
+    for (const letter of input) {
+        const peek = stack[stack.length - 1];
+        if ((peek === letter.toLowerCase() || peek === letter.toUpperCase()) && peek !== letter) {
+            stack.pop();
+        } else {
+            stack.push(letter);
         }
     }
-    return input;
+    return stack.join("");
 }
 const letters = [
     "a",
