@@ -26,7 +26,7 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
     let wid = 0;
     let hei = 0;
     console.log("Parsing input");
-    console.time("input")
+    console.time("input");
     for (const put of input) {
         const claim = parseClaim(put);
         claims.push(claim);
@@ -57,7 +57,7 @@ fs.readFile("input3.txt", "utf8", (err, file) => {
     }
     console.timeEnd("claims");
     console.log("Finding answer");
-    console.time("ans")
+    console.time("ans");
     for (const claim of claims) {
         let overlaps = 0;
         for (let i = 0; i < claim.width; i++) {
