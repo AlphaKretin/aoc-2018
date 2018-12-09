@@ -10,7 +10,7 @@ alpha.unshift(" ");
 
 console.log("Reading input");
 console.time("whole");
-fs.readFile("input7.txt", "utf8", (err, input) => {
+fs.readFile("input7-test.txt", "utf8", (err, input) => {
     console.log("Parsing input");
     console.time("input");
     const steps = [];
@@ -46,26 +46,13 @@ fs.readFile("input7.txt", "utf8", (err, input) => {
             task: undefined,
             free: true,
             remaining: 0
-        },
-        {
-            task: undefined,
-            free: true,
-            remaining: 0
-        },
-        {
-            task: undefined,
-            free: true,
-            remaining: 0
-        },
-        {
-            task: undefined,
-            free: true,
-            remaining: 0
         }
     ];
+    console.dir(map);
     let readySteps = [];
     const origLength = steps.length;
-    let dur = 0;
+    let second = 0;
+    const log = ["Second\tW1\tW2\tDone"];
     while (ans.length < origLength) {
         const newSteps = [];
         for (const worker of workers) {
@@ -100,13 +87,14 @@ fs.readFile("input7.txt", "utf8", (err, input) => {
             if (worker.free && readySteps.length > 0) {
                 worker.task = readySteps.shift();
                 worker.free = false;
-                worker.remaining = 60 + alpha.indexOf(worker.task);
+                worker.remaining = alpha.indexOf(worker.task);
             }
         }
-        dur++;
+        log.push(second + "\t" + (workers[0].task || ".") + "\t" + (workers[1].task || ".") + "\t" + ans.join(""));
+        second++;
     }
     console.timeEnd("ans");
     console.timeEnd("whole");
+    console.log(log.join("\n"));
     console.log(ans.join(""));
-    console.log(dur - 1);
 });
