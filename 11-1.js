@@ -2,25 +2,15 @@ console.log("Starting...");
 console.time("whole");
 const serial = 9798;
 
-class FuelCell {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    get rackID() {
-        return this.x + 10;
-    }
-
-    get powerLevel() {
-        let power = this.rackID * this.y;
-        power += serial;
-        power *= this.rackID;
-        power = ((power % 1000) - (power % 100)) / 100;
-        power -= 5;
-        return power;
-    }
-}
+const getPower = (x, y) => {
+    const rackID = x + 10;
+    let power = rackID * y;
+    power += serial;
+    power *= rackID;
+    power = ((power % 1000) - (power % 100)) / 100;
+    power -= 5;
+    return power;
+};
 
 let maxPower = 0;
 let maxX = 1;
@@ -36,8 +26,7 @@ for (let x = 1; x <= 300 - 2; x++) {
                 if (memo[x + xoff] && y + yoff in memo[x + xoff]) {
                     power += memo[x + xoff][y + yoff];
                 } else {
-                    const cell = new FuelCell(x + xoff, y + yoff);
-                    const p = cell.powerLevel;
+                    const p = getPower(x + xoff, y + yoff);
                     if (!(x + xoff in memo)) {
                         memo[x + xoff] = {};
                     }
